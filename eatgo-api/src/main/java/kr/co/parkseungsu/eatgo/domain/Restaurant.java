@@ -1,5 +1,6 @@
 package kr.co.parkseungsu.eatgo.domain;
 
+import lombok.Getter;
 import org.springframework.cglib.core.TypeUtils;
 
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
 @Entity
+@Getter
 public class Restaurant {
     @Id
     @GeneratedValue
@@ -37,25 +39,10 @@ public class Restaurant {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
     public String getInformation() {
         return name + " in " + address;
     }
 
-    public List<MenuItem> getMenuItems() {
-        return menuItems;
-    }
 
     public void addMenuItem(MenuItem menuItem) {
         menuItems.add(menuItem);
