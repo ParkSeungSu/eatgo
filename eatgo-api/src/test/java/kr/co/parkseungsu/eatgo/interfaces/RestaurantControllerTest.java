@@ -49,19 +49,26 @@ public class RestaurantControllerTest {
     }
 
     @Test
-    public void detail() throws Exception {
+    public void detailWithExisted() throws Exception {
         Restaurant restaurant1 = Restaurant.builder()
                 .id(1004L)
                 .name("Bob zip")
                 .address("Seoul")
                 .build();
-        restaurant1.setMenuItems(Arrays.asList(new MenuItem("Kimchi")));
+        restaurant1.setMenuItems(Arrays.asList(
+                MenuItem.builder()
+                        .name("Kimchi")
+                        .build()));
         Restaurant restaurant2 = Restaurant.builder()
                 .id(2020L)
                 .name("Cyber Food")
                 .address("Seoul")
                 .build();
-        restaurant2.setMenuItems(Arrays.asList(new MenuItem("Kimchi")));
+        restaurant2.setMenuItems(Arrays.asList(
+                MenuItem
+                        .builder()
+                        .name("Kimchi")
+                        .build()));
         given(restaurantService.getRestaurant(1004L)).willReturn(restaurant1);
         given(restaurantService.getRestaurant(2020L)).willReturn(restaurant2);
         mvc.perform(get("/restaurants/1004"))
@@ -81,7 +88,16 @@ public class RestaurantControllerTest {
     }
 
     @Test
-    public void create() throws Exception {
+    public void detailWithNotExisted() throws Exception {
+        given(restaurantService.getRestaurant(404L))
+                .willThrow(new RestaurantNotFoundException(404L));
+        mvc.perform(get("/restaurants/404"))
+                .andExpect(status().isNotFound())
+        .andExpect(content().string("{}"));
+    }
+
+    @Test
+    public void createWithValidData() throws Exception {
         given(restaurantService.addRestaurant(any())).will(invocation -> {
             Restaurant restaurant = invocation.getArgument(0);
             return Restaurant.builder()
@@ -100,13 +116,29 @@ public class RestaurantControllerTest {
 
         verify(restaurantService).addRestaurant(any());
     }
+    @Test
+    public void createWithInvalidData() throws Exception {
+
+        mvc.perform(post("/restaurants")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"\",\"address\":\"\"}"))
+                .andExpect(status().isBadRequest());
+    }
 
     @Test
-    public void update() throws Exception {
+    public void updateWithValidData() throws Exception {
         mvc.perform(patch("/restaurants/1004")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"name\":\"Bob house\",\"address\":\"Wonju\"}"))
                 .andExpect(status().isOk());
         verify(restaurantService).updateRestaurant(1004L, "Bob house", "Wonju");
+    }
+    @Test
+    public void updateWithInvalidData() throws Exception {
+        mvc.perform(patch("/restaurants/1004")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"\",\"address\":\"\"}"))
+                .andExpect(status().isBadRequest());
+
     }
 }
