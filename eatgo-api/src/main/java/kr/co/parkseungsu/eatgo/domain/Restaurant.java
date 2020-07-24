@@ -1,7 +1,9 @@
 package kr.co.parkseungsu.eatgo.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import org.springframework.cglib.core.TypeUtils;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 @Entity
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Restaurant {
     @Id
     @GeneratedValue
@@ -21,11 +26,7 @@ public class Restaurant {
     private String address;
 
     @Transient
-    private List<MenuItem> menuItems = new ArrayList<MenuItem>();
-
-    public Restaurant() {
-
-    }
+    private List<MenuItem> menuItems;
 
     public Restaurant(String name, String address) {
         this.name = name;
@@ -44,14 +45,10 @@ public class Restaurant {
     }
 
 
-    public void addMenuItem(MenuItem menuItem) {
-        menuItems.add(menuItem);
-    }
 
     public void setMenuItems(List<MenuItem> menuItems) {
-        for (MenuItem menuItem : menuItems) {
-            addMenuItem(menuItem);
-        }
+        this.menuItems=new ArrayList<>(menuItems);
+
     }
 
     public void setName(String name) {
