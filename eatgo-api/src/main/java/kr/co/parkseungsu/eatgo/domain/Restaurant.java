@@ -2,10 +2,7 @@ package kr.co.parkseungsu.eatgo.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Restaurant {
     @Id
+    @Setter
     @GeneratedValue
     private Long id;
 
@@ -33,17 +31,14 @@ public class Restaurant {
     @Transient
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<MenuItem> menuItems;
+    @Transient
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<Review> reviews;
 
-    public Restaurant(String name, String address) {
-        this.name = name;
-        this.address = address;
-
-    }
-
-    public Restaurant(Long id, String name, String address) {
-        this.name = name;
-        this.address = address;
-        this.id = id;
+    public Restaurant(Long id,String name,String address) {
+        this.id=id;
+        this.name=name;
+        this.address=address;
     }
 
     public String getInformation() {
@@ -51,26 +46,17 @@ public class Restaurant {
     }
 
 
-
     public void setMenuItems(List<MenuItem> menuItems) {
         this.menuItems=new ArrayList<>(menuItems);
 
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public void updateInformation(String name, String address) {
         this.name=name;
         this.address=address;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews=new ArrayList<>(reviews);
     }
 }
