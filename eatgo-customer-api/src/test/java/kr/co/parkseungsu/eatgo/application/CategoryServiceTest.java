@@ -12,9 +12,7 @@ import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
 
 public class CategoryServiceTest {
 
@@ -43,14 +41,6 @@ public class CategoryServiceTest {
         Category category=categories.get(0);
         assertThat(category.getName(),is("Korean Food"));
 
-    }
-    @Test
-    public void addCategory(){
-        Category category=categoryService.addCategory("Korean Food");
-
-        verify(categoryRepository).save(any());
-
-        assertThat(category.getName(),is("Korean Food"));
     }
 
 }
