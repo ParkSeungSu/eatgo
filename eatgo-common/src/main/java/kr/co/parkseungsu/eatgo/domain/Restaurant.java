@@ -1,7 +1,6 @@
 package kr.co.parkseungsu.eatgo.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -9,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 @Entity
@@ -22,6 +22,8 @@ public class Restaurant {
     @GeneratedValue
     private Long id;
 
+    @NotNull
+    private Long categoryId;
     @NotEmpty
     private String name;
 
