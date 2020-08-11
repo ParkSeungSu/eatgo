@@ -39,11 +39,11 @@ public class SessionControllerTest {
         String password="test";
         String name="John";
         Long id=1004L;
-        User mockUser= User.builder().email(email).id(id).name(name).build();
+        User mockUser= User.builder().level(1l).name(name).build();
 
         given(userService.authenticate(email,password)).willReturn(mockUser);
 
-        given(jwtUtil.createToken(id,name)).willReturn("header.payload.signature");
+        given(jwtUtil.createToken(id,name, null)).willReturn("header.payload.signature");
 
         mvc.perform(post("/session")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -57,6 +57,33 @@ public class SessionControllerTest {
         verify(userService).authenticate(eq(email),eq(password));
     }
 
+    @Test
+    public void createRestaurantOwner() throws Exception {
+        String email="cldkr0401@naver.com";
+        String password="test";
+        String name="John";
+        Long id=1004L;
+        User mockUser= User.builder()
+                .id(id)
+                .name(name)
+                .level(50L)
+                .restaurantId(369L).build();
+
+        given(userService.authenticate(email,password)).willReturn(mockUser);
+
+        given(jwtUtil.createToken(id,name, 369L)).willReturn("header.payload.signature");
+
+        mvc.perform(post("/session")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"email\":\"cldkr0401@naver.com\",\"password\":\"test\"}"))
+                .andExpect(status().isCreated())
+                .andExpect(header().string("location","/session"))
+                .andExpect(content().string(
+                        containsString("{\"accessToken\":\"header.payload.signature\"")
+                ));
+
+        verify(userService).authenticate(eq(email),eq(password));
+    }
     @Test
     public void createWithNotExistedEmail() throws Exception {
         given(userService.authenticate("x@naver.con","test"))
