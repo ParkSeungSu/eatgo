@@ -1,7 +1,5 @@
 package kr.co.parkseungsu.eatgo.application;
 
-import kr.co.parkseungsu.eatgo.application.ReviewService;
-import kr.co.parkseungsu.eatgo.domain.Review;
 import kr.co.parkseungsu.eatgo.domain.ReviewRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,12 +23,9 @@ public class ReviewServiceTest {
     }
     @Test
     public void addReview(){
-        Review review=Review.builder()
-                .name("Park")
-                .score(3)
-                .description("Delicious")
-                .build();
-        reviewService.addReview(1004L,review);
+
+        reviewService.addReview(1004L,"Park",
+                3,"Delicious");
         verify(reviewRepository).save(any());
     }
 
