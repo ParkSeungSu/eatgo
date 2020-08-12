@@ -35,9 +35,12 @@ public class ReservationController {
         String time= claims.get("time",String.class);
         Integer partySize=claims.get("partySize",Integer.class);
 
-        reservationService.addReservation(restaurantId,userId,name,date,time,partySize);
+        Reservation reservation=reservationService.addReservation(
+                restaurantId,userId,name,date,time,partySize);
 
-        String url="/restaurants/"+restaurantId+"/reservations/1";
+        String url="/restaurants/"+restaurantId+
+                "/reservations/"
+                +reservation.getId();
         return ResponseEntity.created(new URI(url)).body("{}");
     }
 
