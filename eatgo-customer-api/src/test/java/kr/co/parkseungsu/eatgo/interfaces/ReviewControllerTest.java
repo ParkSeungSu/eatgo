@@ -31,7 +31,7 @@ public class ReviewControllerTest {
         given(reviewService.addReview(1L,"John",3,"Delicious")).willReturn(
                 Review.builder().id(1004L).build());
 
-        mvc.perform(post("/restaurants/1/reviews")
+        mvc.perform(post("/restaurants/3/reviews")
                 .header("Authorization","Bearer "+token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"score\":3,\"description\":\"delicious\"}"))

@@ -11,12 +11,11 @@ import java.security.Key;
 
 public class JwtUtil {
 
-    private String secret;
     private Key key;
 
     public JwtUtil(String secret) {
         this.key= Keys.hmacShaKeyFor(secret.getBytes());
-        this.secret=secret;
+
     }
 
     public String createToken(long userId, String name, Long restaurantId) {

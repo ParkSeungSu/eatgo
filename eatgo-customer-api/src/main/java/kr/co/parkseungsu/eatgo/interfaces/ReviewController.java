@@ -36,8 +36,7 @@ public class ReviewController {
         Review review= reviewService.addReview(
                 restaurantId,name,score,description);
 
-        String url = "/restaurants/"+restaurantId+
-                "/reviews/"+review.getId();
+        String url = "/restaurants/"+restaurantId+"/reviews/"+review.getId();
         return ResponseEntity.created(new URI(url))
                 .body("{}");
     }
