@@ -27,6 +27,7 @@ public class JwtUtilTest {
         String token = jwtUtil.createToken(1004L, "John", null);
 
         assertThat(token, containsString("."));
+
     }
 
     @Test
