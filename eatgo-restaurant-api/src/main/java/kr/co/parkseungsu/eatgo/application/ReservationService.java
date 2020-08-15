@@ -20,7 +20,7 @@ public class ReservationService {
         this.reservationRepository=reservationRepository;
     }
 
-    public List<Reservation> getReservations(long restaurantId) {
-        return null;
+    public List<Reservation> getReservations(Long restaurantId) {
+        return reservationRepository.findAllByRestaurantId(restaurantId);
     }
 }

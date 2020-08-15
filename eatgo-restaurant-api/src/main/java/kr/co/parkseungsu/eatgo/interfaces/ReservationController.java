@@ -23,7 +23,6 @@ public class ReservationController {
             Authentication authentication
     ) throws URISyntaxException {
         Claims claims=(Claims)authentication.getPrincipal();
-
         Long restaurantId=claims.get("restaurantId",Long.class);
         List<Reservation> reservations=reservationService.getReservations(restaurantId);
         return reservations;
